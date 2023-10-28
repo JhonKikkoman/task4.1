@@ -4,7 +4,7 @@ import { checkinDataRegexp, checkinDigit } from "./regexp";
 import { funcType, inputValue, targetType } from "../models";
 
 export default function WorkoutInterface({ propFunc }: funcType) {
-    const [state, setState] = useState<inputValue | any>({
+    const [state, setState] = useState<inputValue>({
         dataValue: '',
         passedValue: '',
         id: ''
@@ -35,7 +35,7 @@ export default function WorkoutInterface({ propFunc }: funcType) {
         }
         setState({
             dataValue: dataString,
-            passedValue: Number(passedString),
+            passedValue: passedString,
             id: `${dataString}_${passedString}`
         });
 

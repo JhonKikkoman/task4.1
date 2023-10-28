@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import './App.css';
 import WorkoutInterface from './components/TraningInterface/TrainingInterface';
-import { aliasValue, sortType } from "./components/models";
+import { aliasValue2 } from "./components/models";
 
 function App() {
-  const [state, setState] = useState<aliasValue[]>([]);
+  const [state, setState] = useState<aliasValue2[]>([]);
 
-  const resultValueClbck = (obj: aliasValue): void => {
+  const resultValueClbck = (obj: aliasValue2): void => {
     if (state.length !== 0) {
       const nonDuplicateArr = state.filter((item) => item.dataValue !== obj.dataValue);
       const filteredElem = state.filter((item) => item.dataValue === obj.dataValue);
       if (obj.passedValue !== undefined && filteredElem[0].passedValue !== undefined) {
-        filteredElem[0].passedValue = filteredElem[0].passedValue + obj.passedValue;
+        filteredElem[0].passedValue = Number(filteredElem[0].passedValue) + Number(obj.passedValue);
         nonDuplicateArr.push(filteredElem[0]);
       }
       nonDuplicateArr.sort((dateF, dateS): any => {

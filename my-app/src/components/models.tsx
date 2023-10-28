@@ -4,6 +4,12 @@ export interface aliasValue {
     id: string
 }
 
+export interface aliasValue2 {
+    dataValue?: string,
+    passedValue?: number,
+    id: string
+}
+
 export interface inputValue extends aliasValue {
     name?: string,
     value?: number,
@@ -19,8 +25,4 @@ export type targetType = {
         name?: string,
         value?: string
     }
-}
-
-export type sortType = {
-    dataF: aliasValue,
 }
