@@ -21,6 +21,6 @@ export type targetType = {
     }
 }
 
-export type propType = {
-    prop: aliasValue[];
+export type sortType = {
+    dataF: aliasValue,
 }

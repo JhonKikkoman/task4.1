@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import './App.css';
 import WorkoutInterface from './components/TraningInterface/TrainingInterface';
-import { aliasValue } from "./components/models";
+import { aliasValue, sortType } from "./components/models";
 
 function App() {
   const [state, setState] = useState<aliasValue[]>([]);
 
-  const resultValueClbck = (obj: aliasValue) => {
+  const resultValueClbck = (obj: aliasValue): void => {
     if (state.length !== 0) {
       const nonDuplicateArr = state.filter((item) => item.dataValue !== obj.dataValue);
       const filteredElem = state.filter((item) => item.dataValue === obj.dataValue);
@@ -40,7 +40,7 @@ function App() {
     }
   }
 
-  const handlerClick = (stringId: string): any => {
+  const handlerClick = (stringId: string): void => {
     setState(state.filter((e) => { return e.id !== stringId }))
 }
 
