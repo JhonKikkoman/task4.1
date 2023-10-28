@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import WorkoutInterface from './components/TraningInterface/TrainingInterface';
-import ResultField from './components/ResultField/ResultField';
 import { aliasValue } from "./components/models";
 
 function App() {
@@ -11,46 +10,66 @@ function App() {
     if (state.length !== 0) {
       const nonDuplicateArr = state.filter((item) => item.dataValue !== obj.dataValue);
       const filteredElem = state.filter((item) => item.dataValue === obj.dataValue);
-      const resultedElem = filteredElem.reduce<aliasValue>((accum, item) => {
-        return accum = {
-          dataValue: item.dataValue,
-          passedValue: String(Number(item.passedValue) + Number(obj.passedValue)),
-          id: `${item.dataValue}_${String(Number(item.passedValue) + Number(obj.passedValue))}`
-        }
-      }, {} as aliasValue)
-      if(Object.keys(resultedElem).length !== 0) {
-        nonDuplicateArr.push(resultedElem);
+      if (obj.passedValue !== undefined && filteredElem[0].passedValue !== undefined) {
+        filteredElem[0].passedValue = filteredElem[0].passedValue + obj.passedValue;
+        nonDuplicateArr.push(filteredElem[0]);
       }
       nonDuplicateArr.sort((dateF, dateS): any => {
-            if (dateF.dataValue && dateS.dataValue !== undefined) {
-                const date1: string[] = dateF.dataValue.split('.')
-                const date2: string[] = dateS.dataValue.split('.');
-                const day1: number = parseInt(date1[0]);
-                const day2: number = parseInt(date2[0]);
-                const month1: number = parseInt(date1[1]);
-                const month2: number = parseInt(date2[1]);
-                const year1: number = parseInt(date1[2]);
-                const year2: number = parseInt(date2[2]);
+        if (dateF.dataValue && dateS.dataValue !== undefined) {
+          const date1: string[] = dateF.dataValue.split('.')
+          const date2: string[] = dateS.dataValue.split('.');
+          const day1: number = parseInt(date1[0]);
+          const day2: number = parseInt(date2[0]);
+          const month1: number = parseInt(date1[1]);
+          const month2: number = parseInt(date2[1]);
+          const year1: number = parseInt(date1[2]);
+          const year2: number = parseInt(date2[2]);
 
-                if (year1 !== year2) {
-                    return year2 - year1;
-                } else if (month1 !== month2) {
-                    return month2 - month1;
-                } else {
-                    return day2 - day1;
-                }
-            }
-        });
-    setState(nonDuplicateArr);
+          if (year1 !== year2) {
+            return year2 - year1;
+          } else if (month1 !== month2) {
+            return month2 - month1;
+          } else {
+            return day2 - day1;
+          }
+        }
+      });
+      setState(nonDuplicateArr);
     } else {
       setState(prev => [...prev, obj])
     }
   }
+
+  const handlerClick = (stringId: string): any => {
+    setState(state.filter((e) => { return e.id !== stringId }))
+}
+
   return (
     <>
       <div className='container'>
         <WorkoutInterface propFunc={resultValueClbck} />
-        <ResultField prop={state} />
+        <div className="wrapper_field">
+                <div className="wrapper_field_info">
+                    <span className="text_hint">ДАТА(ДД.ММ.ГГ)</span>
+                    <span className="text_hint">Пройдено км</span>
+                    <span className="text_hint">Действия</span>
+                </div>
+            </div>
+            <div className="container_info">
+                {state.map((item) => {
+                    return (
+                        <><div key={item.id} className="tick_info">
+                            <span className="inner_info" >{item.dataValue}</span>
+                            <span className="inner_info" >{item.passedValue}</span>
+                            <div className="container_icon inner_info">
+                                <span className="material-symbols-outlined icon_edit">edit</span>
+                                <span className="material-symbols-outlined icon_delete" onClick={() => handlerClick(item.id)}>delete_forever</span>
+                            </div>
+                        </div>
+                        </>
+                    )
+                })}
+            </div>
       </div>
     </>
   );

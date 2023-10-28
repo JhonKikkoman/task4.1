@@ -4,7 +4,7 @@ import { checkinDataRegexp, checkinDigit } from "./regexp";
 import { funcType, inputValue, targetType } from "../models";
 
 export default function WorkoutInterface({ propFunc }: funcType) {
-    const [state, setState] = useState<inputValue>({
+    const [state, setState] = useState<inputValue | any>({
         dataValue: '',
         passedValue: '',
         id: ''
@@ -25,7 +25,7 @@ export default function WorkoutInterface({ propFunc }: funcType) {
     const handlerChange = ({ target }: targetType) => {
         const { name, value } = target;
         const dataString: string | undefined = name === 'dataValue' ? value : state.dataValue;
-        const passedString: string | undefined = name === 'passedValue' ? value : state.passedValue;
+        const passedString: string | undefined = String(name === 'passedValue' ? value : state.passedValue);
         if (dataString !== undefined && passedString !== undefined) {
             if (checkinDataRegexp.test(dataString) && checkinDigit.test(passedString)) {
                 setStateBtn(false);
@@ -33,11 +33,9 @@ export default function WorkoutInterface({ propFunc }: funcType) {
                 setStateBtn(true);
             }
         }
-
-
         setState({
             dataValue: dataString,
-            passedValue: passedString,
+            passedValue: Number(passedString),
             id: `${dataString}_${passedString}`
         });
 

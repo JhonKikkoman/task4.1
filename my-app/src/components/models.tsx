@@ -6,7 +6,7 @@ export interface aliasValue {
 
 export interface inputValue extends aliasValue {
     name?: string,
-    value?: string,
+    value?: number,
     id: string
 }
 
@@ -23,10 +23,4 @@ export type targetType = {
 
 export type propType = {
     prop: aliasValue[];
-}
-
-export interface arrayType { 
-        id: string,
-        dataValue?: string,
-        passedValue?: string
 }
