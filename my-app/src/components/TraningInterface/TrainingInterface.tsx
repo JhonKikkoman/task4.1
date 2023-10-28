@@ -3,13 +3,17 @@ import { useState } from "react";
 import { checkinDataRegexp, checkinDigit } from "./regexp";
 import { funcType, inputValue, targetType } from "../models";
 
-export default function WorkoutInterface({ propFunc }: funcType) {
+export default function WorkoutInterface({ propFunc, propEdit }: funcType) {
     const [state, setState] = useState<inputValue>({
         dataValue: '',
         passedValue: '',
         id: ''
     });
     const [stateBtn, setStateBtn] = useState(true);
+
+    if(propEdit !== undefined) {
+        setState(propEdit)
+    }
 
     const handlerSubmit = (e: any): void => {
         e.preventDefault();

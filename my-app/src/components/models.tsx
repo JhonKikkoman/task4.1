@@ -17,7 +17,8 @@ export interface inputValue extends aliasValue {
 }
 
 export type funcType = {
-    propFunc: Function;
+    propFunc: Function,
+    propEdit?: aliasValue
 }
 
 export type targetType = {

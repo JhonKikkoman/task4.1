@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import WorkoutInterface from './components/TraningInterface/TrainingInterface';
-import { aliasValue2 } from "./components/models";
+import { aliasValue, aliasValue2 } from "./components/models";
 
 function App() {
   const [state, setState] = useState<aliasValue2[]>([]);
@@ -42,34 +42,34 @@ function App() {
 
   const handlerClick = (stringId: string): void => {
     setState(state.filter((e) => { return e.id !== stringId }))
-}
+  }
 
   return (
     <>
       <div className='container'>
         <WorkoutInterface propFunc={resultValueClbck} />
         <div className="wrapper_field">
-                <div className="wrapper_field_info">
-                    <span className="text_hint">ДАТА(ДД.ММ.ГГ)</span>
-                    <span className="text_hint">Пройдено км</span>
-                    <span className="text_hint">Действия</span>
+          <div className="wrapper_field_info">
+            <span className="text_hint">ДАТА(ДД.ММ.ГГ)</span>
+            <span className="text_hint">Пройдено км</span>
+            <span className="text_hint">Действия</span>
+          </div>
+        </div>
+        <div className="container_info">
+          {state.map((item) => {            
+            return (
+              <><div key={item.id} className="tick_info">
+                <span className="inner_info" >{item.dataValue}</span>
+                <span className="inner_info" >{item.passedValue}</span>
+                <div className="container_icon inner_info">
+                  <span className="material-symbols-outlined icon_edit" onClick={() => console.log(item) }>edit</span>
+                  <span className="material-symbols-outlined icon_delete" onClick={() => handlerClick(item.id)}>delete_forever</span>
                 </div>
-            </div>
-            <div className="container_info">
-                {state.map((item) => {
-                    return (
-                        <><div key={item.id} className="tick_info">
-                            <span className="inner_info" >{item.dataValue}</span>
-                            <span className="inner_info" >{item.passedValue}</span>
-                            <div className="container_icon inner_info">
-                                <span className="material-symbols-outlined icon_edit">edit</span>
-                                <span className="material-symbols-outlined icon_delete" onClick={() => handlerClick(item.id)}>delete_forever</span>
-                            </div>
-                        </div>
-                        </>
-                    )
-                })}
-            </div>
+              </div>
+              </>
+            )
+          })}
+        </div>
       </div>
     </>
   );
