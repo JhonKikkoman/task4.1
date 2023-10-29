@@ -4,7 +4,7 @@ export interface aliasValue {
     id: string
 }
 
-export interface aliasValue2 {
+export interface aliasValueWithNumber {
     dataValue?: string,
     passedValue?: number,
     id: string
@@ -18,7 +18,7 @@ export interface inputValue extends aliasValue {
 
 export type funcType = {
     propFunc: Function,
-    propEdit?: aliasValue
+    // propFuncEdit: Function
 }
 
 export type targetType = {

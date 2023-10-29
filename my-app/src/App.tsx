@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
 import './App.css';
-import WorkoutInterface from './components/TraningInterface/TrainingInterface';
-import { aliasValue, aliasValue2 } from "./components/models";
+import { aliasValue, aliasValueWithNumber } from "./components/models";
+import WorkoutDisplay from './components/TraningInterface/TrainingInterface';
 
 function App() {
-  const [state, setState] = useState<aliasValue2[]>([]);
+  const [state, setState] = useState<aliasValueWithNumber[]>([]);
+  const [stateEdit, setStateEdit] = useState<aliasValueWithNumber>({
+    dataValue: '',
+    passedValue: 0,
+    id: ''
+  })
 
-  const resultValueClbck = (obj: aliasValue2): void => {
+  const resultValueClbck = (obj: aliasValueWithNumber): void => {
+    obj.passedValue = Number(obj.passedValue);
     if (state.length !== 0) {
       const nonDuplicateArr = state.filter((item) => item.dataValue !== obj.dataValue);
       const filteredElem = state.filter((item) => item.dataValue === obj.dataValue);
-      if (obj.passedValue !== undefined && filteredElem[0].passedValue !== undefined) {
-        filteredElem[0].passedValue = Number(filteredElem[0].passedValue) + Number(obj.passedValue);
-        nonDuplicateArr.push(filteredElem[0]);
+      if (filteredElem.length !== 0) {
+        if (obj.passedValue !== undefined && filteredElem[0].passedValue !== undefined) {
+          filteredElem[0].passedValue = filteredElem[0].passedValue + obj.passedValue;
+          filteredElem[0].id = `${filteredElem[0].dataValue}_${filteredElem[0].passedValue}`;
+          nonDuplicateArr.push(filteredElem[0]);
+        }
+      } else {
+        nonDuplicateArr.push(obj)
       }
       nonDuplicateArr.sort((dateF, dateS): any => {
         if (dateF.dataValue && dateS.dataValue !== undefined) {
@@ -44,10 +55,34 @@ function App() {
     setState(state.filter((e) => { return e.id !== stringId }))
   }
 
+  // const handlerEdit = (item: aliasValueWithNumber) => {
+  //   setStateEdit(item);
+  //   console.log(stateEdit)
+  //   EditClbk(item.dataValue, item.passedValue)
+  //   handlerClick(item.id);
+    
+  // }
+  // const EditClbk = (name: string | undefined, value: string | undefined) => {
+  //   if (name !== undefined && value !== undefined) {
+  //     if (name === 'dataValue') {
+  //       console.log(stateEdit.dataValue)
+  //       value = stateEdit.dataValue
+  //     }
+  //     if (name === 'passedValue') {
+  //       value = String(stateEdit.passedValue)
+  //     }
+  //   }
+  //   setStateEdit({
+  //     dataValue: '',
+  //     passedValue: 0,
+  //     id: ''
+  //   })
+  // }
+
   return (
     <>
       <div className='container'>
-        <WorkoutInterface propFunc={resultValueClbck} />
+        <WorkoutDisplay propFunc={resultValueClbck} />
         <div className="wrapper_field">
           <div className="wrapper_field_info">
             <span className="text_hint">ДАТА(ДД.ММ.ГГ)</span>
@@ -56,13 +91,13 @@ function App() {
           </div>
         </div>
         <div className="container_info">
-          {state.map((item) => {            
+          {state.map((item) => {
             return (
               <><div key={item.id} className="tick_info">
                 <span className="inner_info" >{item.dataValue}</span>
                 <span className="inner_info" >{item.passedValue}</span>
                 <div className="container_icon inner_info">
-                  <span className="material-symbols-outlined icon_edit" onClick={() => console.log(item) }>edit</span>
+                  <span className="material-symbols-outlined icon_edit" onClick={() => console.log(item)}>edit</span>
                   <span className="material-symbols-outlined icon_delete" onClick={() => handlerClick(item.id)}>delete_forever</span>
                 </div>
               </div>

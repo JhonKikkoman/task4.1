@@ -3,17 +3,15 @@ import { useState } from "react";
 import { checkinDataRegexp, checkinDigit } from "./regexp";
 import { funcType, inputValue, targetType } from "../models";
 
-export default function WorkoutInterface({ propFunc, propEdit }: funcType) {
+export default function WorkoutDisplay({ propFunc }: funcType) {
     const [state, setState] = useState<inputValue>({
         dataValue: '',
         passedValue: '',
         id: ''
     });
     const [stateBtn, setStateBtn] = useState(true);
-
-    if(propEdit !== undefined) {
-        setState(propEdit)
-    }
+    // propObj.passedValue = String(propObj.passedValue)
+    // console.log(propObj)
 
     const handlerSubmit = (e: any): void => {
         e.preventDefault();
@@ -27,7 +25,8 @@ export default function WorkoutInterface({ propFunc, propEdit }: funcType) {
     }
 
     const handlerChange = ({ target }: targetType) => {
-        const { name, value } = target;
+        let { name, value } = target;
+        // EditClbk(name, value);
         const dataString: string | undefined = name === 'dataValue' ? value : state.dataValue;
         const passedString: string | undefined = String(name === 'passedValue' ? value : state.passedValue);
         if (dataString !== undefined && passedString !== undefined) {
